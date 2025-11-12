@@ -1,0 +1,934 @@
+<!DOCTYPE html>  
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Vida - Espalhe amor, adote uma vida!</title>
+  <meta name="description" content="Encontre seu novo melhor amigo! Adote cães e gatos de todas as idades e raças. Transforme vidas com adoção responsável.">
+  <meta name="keywords" content="adoção de pets, cachorros para adoção, gatos para adoção, adoção responsável, pet vida">
+  <link rel="icon" href="imagens/icone-removebg-preview.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6C4AB6;
+      --primary-dark: #E83A72;
+      --secondary: #FF5C8D;
+      --light: #F9F9F9;
+      --dark: #2D2D2D;
+      --gray: #E0E0E0;
+      --success: #4CAF50;
+      --warning: #FF9800;
+      --radius: 12px;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #FFF9FB;
+      color: var(--dark);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      text-align: center;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      margin: 0;
+      font-weight: 600;
+      font-size: 2rem;
+    }
+
+    /* Barra de busca */
+    #barra-busca {
+      padding: 15px;
+      text-align: center;
+      background-color: white;
+      border-bottom: 1px solid var(--gray);
+    }
+
+    #busca-pet {
+      padding: 10px 15px;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray);
+      width: 80%;
+      max-width: 400px;
+      font-family: 'Poppins', sans-serif;
+      transition: var(--transition);
+    }
+
+    #busca-pet:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(108, 74, 182, 0.2);
+    }
+
+    /* Filtros */
+    #barra-filtros {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      background-color: rgba(108, 74, 182, 0.05);
+      padding: 15px;
+      border-top: 1px solid rgba(108, 74, 182, 0.1);
+      border-bottom: 1px solid rgba(108, 74, 182, 0.1);
+    }
+
+    #barra-filtros button {
+      background-color: rgba(255, 92, 141, 0.1);
+      color: var(--secondary);
+      border: none;
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 92, 141, 0.3);
+      position: relative;
+    }
+
+    #barra-filtros button:hover,
+    #barra-filtros button:focus {
+      background-color: rgba(255, 92, 141, 0.2);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    #barra-filtros button.filtro-ativo {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Tooltip para filtros */
+    .tooltip {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--dark);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #barra-filtros button:hover .tooltip {
+      opacity: 1;
+    }
+
+    /* Lista de pets */
+    #lista-pets {
+      padding: 30px 20px;
+      min-height: 60vh;
+    }
+
+    .pets-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    /* Cards de pets */
+    .pet-card {
+      background-color: white;
+      border: 1px solid var(--gray);
+      border-radius: var(--radius);
+      padding: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .pet-card.favoritado {
+      border: 2px solid var(--secondary);
+      box-shadow: 0 0 0 2px rgba(255, 92, 141, 0.3);
+    }
+
+    .pet-card.favoritado .pet-nome {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .pet-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: var(--radius);
+      background-color: #f5f5f5;
+    }
+
+    .pet-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .pet-card h2, .pet-card p {
+      margin: 8px 0;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+
+    .pet-nome {
+      font-size: 1.2rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin: 8px 0;
+    }
+
+    /* Badges */
+    .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--secondary);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+
+    .badge.novo {
+      background-color: var(--success);
+    }
+
+    .badge.urgente {
+      background-color: var(--warning);
+    }
+
+    /* Botão de favorito */
+    .btn-favorito {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+    }
+
+    .btn-favorito.ativo {
+      color: var(--secondary);
+    }
+
+    .btn-favorito:hover {
+      transform: scale(1.2);
+    }
+
+    /* Botão de adoção */
+    .btn-adotar {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius);
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-adotar:hover,
+    .btn-adotar:focus {
+      background-color: var(--primary-dark);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    /* Mensagem quando não há pets */
+    .sem-resultados {
+      text-align: center;
+      padding: 40px;
+      color: var(--dark);
+      display: none;
+    }
+
+    /* Modal de confirmação */
+    .modal-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background: white;
+      padding: 30px;
+      border-radius: var(--radius);
+      max-width: 400px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+
+    .modal.ativo {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+
+    .modal button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .btn-sim {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-sim:hover,
+    .btn-sim:focus {
+      background-color: var(--primary-dark);
+      outline: none;
+    }
+
+    .btn-nao {
+      background-color: var(--gray);
+      color: var(--dark);
+    }
+
+    .btn-nao:hover,
+    .btn-nao:focus {
+      background-color: #d0d0d0;
+      outline: none;
+    }
+
+    /* Botão voltar */
+    .btn-voltar-canto {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-voltar-canto:hover {
+      transform: scale(1.1);
+      background-color: var(--primary);
+    }
+
+    .btn-voltar-canto:hover svg {
+      stroke: white;
+    }
+
+    .btn-voltar-canto svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 3;
+      transition: var(--transition);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Skeleton loading */
+    .skeleton {
+      animation: skeleton-loading 1.5s infinite ease-in-out;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      border-radius: var(--radius);
+    }
+
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Responsividade */
+    @media screen and (max-width: 768px) {
+      #barra-filtros {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .pet-card {
+        width: 160px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .pet-card {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .modal {
+        width: 90%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Botão voltar fixo no canto superior esquerdo -->
+  <button class="btn-voltar-canto" onclick="window.location.href='index.html'" title="Voltar" aria-label="Voltar para página inicial">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+
+  <header role="banner">
+    <h1>Pets Disponíveis para Adoção</h1>
+  </header>
+
+  <!-- Barra de busca MODIFICADA (agora busca por raça) -->
+  <div id="barra-busca">
+    <input type="text" id="busca-pet" placeholder="Buscar por raça..." aria-label="Buscar pets por raça">
+  </div>
+
+  <!-- Filtros - ADICIONADO BOTÃO DE FAVORITOS -->
+  <nav id="barra-filtros" role="navigation" aria-label="Filtros de pets">
+    <button onclick="filtrarPets('todos')" class="filtro-ativo" id="filtro-todos">
+      🐾 Todos
+      <span class="tooltip">Mostrar todos os pets</span>
+    </button>
+    <button onclick="filtrarPets('cachorro')" id="filtro-cachorro">
+      🐶 Cachorros
+      <span class="tooltip">Filtrar apenas cachorros</span>
+    </button>
+    <button onclick="filtrarPets('gato')" id="filtro-gato">
+      🐱 Gatos
+      <span class="tooltip">Filtrar apenas gatos</span>
+    </button>
+    <button onclick="filtrarPets('filhote')" id="filtro-filhote">
+      🐣 Filhotes
+      <span class="tooltip">Filtrar apenas filhotes</span>
+    </button>
+    <button onclick="filtrarPets('adulto')" id="filtro-adulto">
+      🧍 Adultos
+      <span class="tooltip">Filtrar apenas adultos</span>
+    </button>
+    <button onclick="filtrarPets('idoso')" id="filtro-idoso">
+      👴 Idosos
+      <span class="tooltip">Filtrar apenas idosos</span>
+    </button>
+    <!-- NOVO BOTÃO DE FAVORITOS -->
+    <button onclick="filtrarFavoritos()" id="filtro-favoritos">
+      ⭐ Favoritos
+      <span class="tooltip">Mostrar apenas meus favoritos</span>
+    </button>
+  </nav>
+
+  <main id="lista-pets" role="main">
+    <div class="pets-container">
+      <!-- Mensagem quando não há resultados -->
+      <div class="sem-resultados">
+        <h2>Nenhum pet encontrado</h2>
+        <p>Tente ajustar seus filtros ou busca</p>
+        <button onclick="filtrarPets('todos')" class="btn-adotar" style="max-width: 200px; margin: 10px auto;">Mostrar todos</button>
+      </div>
+
+      <!-- Cards de pets -->
+      <div class="pet-card cachorro adulto">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <span class="badge novo">Novo</span>
+        <h3 class="pet-nome"><em>Bolinha</em></h3> 
+        <img src="imagens/vira lata.jpg" alt="Cachorro da raça Vira-lata chamado Bolinha" loading="lazy">
+        <h2>Raça: Vira-lata</h2>
+        <p>Sexo: Fêmea</p>
+        <p>Idade: 2 anos</p>
+        <p>Porte: Médio</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card gato adulto">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Pérola</em></h3> 
+        <img src="imagens/siames.jpg" alt="Gato da raça Siamês chamado Pérola" loading="lazy">
+        <h2>Raça: Siamês</h2>
+        <p>Sexo: Fêmea</p>
+        <p>Idade: 1 ano</p>
+        <p>Porte: Pequeno</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro filhote">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Pudim</em></h3> 
+        <img src="imagens/golden.png" alt="Cachorro da raça Golden Retriever chamado Pudim" loading="lazy">
+        <h2>Raça: Golden Retriever</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 9 meses</p>
+        <p>Porte: Grande</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro filhote">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Bob</em></h3> 
+        <img src="imagens/dog4.jpg" alt="Cachorro da raça Border Collie chamado Bob" loading="lazy">
+        <h2>Raça: Border Collie</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 5 meses</p>
+        <p>Porte: Grande</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro filhote">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <span class="badge novo">Novo</span>
+        <h3 class="pet-nome"><em>Thor</em></h3> 
+        <img src="imagens/dog1.jpeg" alt="Cachorro da raça Labrador chamado Thor" loading="lazy">
+        <h2>Raça: Labrador</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 3 meses</p>
+        <p>Porte: Grande</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card gato filhote">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Bento</em></h3> 
+        <img src="imagens/cat2.jpeg" alt="Gato Doméstico de Pelo Curto (Tuxedo) chamado Bento" loading="lazy">
+        <h2>Raça: Gato Doméstico de Pelo Curto (Tuxedo)</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 6 meses</p>
+        <p>Porte: Pequeno</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card gato filhote">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Mel</em></h3> 
+        <img src="imagens/cat3.jpg" alt="Gato Doméstico de Pelo Curto (laranja/ruivo) chamado Mel" loading="lazy">
+        <h2>Raça: Gato Doméstico de Pelo Curto (laranja/ruivo)</h2>
+        <p>Sexo: Fêmea</p>
+        <p>Idade: 3 meses</p>
+        <p>Porte: Pequeno</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro adulto">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <h3 class="pet-nome"><em>Max</em></h3> 
+        <img src="imagens/dog2.jpg" alt="Cachorro da raça Vira-lata chamado Max" loading="lazy">
+        <h2>Raça: Vira-lata</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 5 anos</p>
+        <p>Porte: Grande</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro idoso">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <span class="badge urgente">Urgente</span>
+        <h3 class="pet-nome"><em>Simba</em></h3> 
+        <img src="imagens/dog5.jpg" alt="Cachorro da raça Vira-lata chamado Simba" loading="lazy">
+        <h2>Raça: Vira-lata</h2>
+        <p>Sexo: Macho</p>
+        <p>Idade: 11 anos</p>
+        <p>Porte: Médio</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+
+      <div class="pet-card cachorro idoso">
+        <button class="btn-favorito" aria-label="Adicionar aos favoritos">♥</button>
+        <span class="badge urgente">Urgente</span>
+        <h3 class="pet-nome"><em>Nala</em></h3> 
+        <img src="imagens/dog6.jpg" alt="Cachorro da raça Vira-lata chamado Nala" loading="lazy">
+        <h2>Raça: Vira-lata</h2>
+        <p>Sexo: Fêmea</p>
+        <p>Idade: 14 anos</p>
+        <p>Porte: Grande</p>
+        <button class="btn-adotar" onclick="confirmarAdocao(this)">Quero Adotar</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 PetVida - Todos os direitos reservados</p>
+    <p><a href="mailto:contato@petvida.org.br">contato@petvida.org.br</a> | <a href="tel:+551112345678">(47) 99756-5199</a></p>
+    <p>Siga-nos nas redes sociais: <a href="#" target="_blank">@pet_vida.oficial</a></p>
+  </footer>
+
+  <!-- Modal de confirmação -->
+  <div id="modal-bg" class="modal-bg" aria-hidden="true" role="dialog">
+    <div class="modal" id="modal-confirmacao">
+      <p id="mensagem-modal">Você escolheu adotar um pet. Deseja confirmar essa escolha?</p>
+      <button class="btn-sim" onclick="confirmarEscolha()">Sim, quero adotar</button>
+      <button class="btn-nao" onclick="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    // Variáveis globais
+    let petEscolhidoNome = '';
+    let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+    let filtroAtual = 'todos'; // Armazena o filtro atual
+
+    // Normaliza texto removendo acentos e caracteres especiais
+    function normalizarTexto(texto) {
+      return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      // Carrega favoritos
+      atualizarFavoritos();
+      
+      // Adiciona eventos aos botões de favorito
+      document.querySelectorAll('.btn-favorito').forEach(btn => {
+        const card = btn.closest('.pet-card');
+        const nomePet = card.querySelector('.pet-nome em').innerText;
+        
+        btn.addEventListener('click', function() {
+          toggleFavorito(nomePet, card);
+        });
+        
+        // Marca como favorito se já estiver na lista
+        if (favoritos.includes(nomePet)) {
+          btn.classList.add('ativo');
+          card.classList.add('favoritado');
+        }
+      });
+      
+      // Configura a busca para responder a mudanças e ao apagar texto
+      const buscaInput = document.getElementById('busca-pet');
+      buscaInput.addEventListener('input', function(e) {
+        buscarPorRaca(e.target.value);
+      });
+    });
+
+    // Função para favoritar/desfavoritar
+    function toggleFavorito(nomePet, card) {
+      const btnFavorito = card.querySelector('.btn-favorito');
+      const index = favoritos.indexOf(nomePet);
+      
+      if (index === -1) {
+        // Adiciona aos favoritos
+        favoritos.push(nomePet);
+        btnFavorito.classList.add('ativo');
+        card.classList.add('favoritado');
+        mostrarFeedback('❤️ Adicionado aos favoritos!');
+      } else {
+        // Remove dos favoritos
+        favoritos.splice(index, 1);
+        btnFavorito.classList.remove('ativo');
+        card.classList.remove('favoritado');
+        mostrarFeedback('💔 Removido dos favoritos');
+      }
+      
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+
+    // Atualiza visualização dos favoritos
+    function atualizarFavoritos() {
+      // Atualiza o estado visual dos favoritos
+      document.querySelectorAll('.pet-card').forEach(card => {
+        const nomePet = card.querySelector('.pet-nome em').innerText;
+        const btnFavorito = card.querySelector('.btn-favorito');
+        
+        if (favoritos.includes(nomePet)) {
+          btnFavorito.classList.add('ativo');
+          card.classList.add('favoritado');
+        } else {
+          btnFavorito.classList.remove('ativo');
+          card.classList.remove('favoritado');
+        }
+      });
+    }
+
+    // Mostra feedback visual
+    function mostrarFeedback(mensagem) {
+      const feedback = document.createElement('div');
+      feedback.textContent = mensagem;
+      feedback.style.position = 'fixed';
+      feedback.style.bottom = '20px';
+      feedback.style.left = '50%';
+      feedback.style.transform = 'translateX(-50%)';
+      feedback.style.backgroundColor = 'var(--primary)';
+      feedback.style.color = 'white';
+      feedback.style.padding = '10px 20px';
+      feedback.style.borderRadius = 'var(--radius)';
+      feedback.style.boxShadow = 'var(--shadow)';
+      feedback.style.zIndex = '1000';
+      feedback.style.animation = 'fadeInOut 3s forwards';
+      
+      document.body.appendChild(feedback);
+      
+      setTimeout(() => {
+        feedback.remove();
+      }, 3000);
+    }
+
+    // Confirmação de adoção
+    function confirmarAdocao(botao) {
+      const card = botao.closest('.pet-card');
+      const nomePet = card.querySelector('.pet-nome em').innerText;
+      petEscolhidoNome = nomePet;
+      
+      document.getElementById('mensagem-modal').innerText = `Você escolheu adotar o(a) ${nomePet}. Deseja confirmar essa escolha?`;
+      
+      const modalBg = document.getElementById('modal-bg');
+      const modal = document.getElementById('modal-confirmacao');
+      
+      modalBg.style.display = 'flex';
+      modalBg.setAttribute('aria-hidden', 'false');
+      
+      setTimeout(() => {
+        modal.classList.add('ativo');
+      }, 10);
+    }
+
+    function fecharModal() {
+      const modalBg = document.getElementById('modal-bg');
+      const modal = document.getElementById('modal-confirmacao');
+      
+      modal.classList.remove('ativo');
+      
+      setTimeout(() => {
+        modalBg.style.display = 'none';
+        modalBg.setAttribute('aria-hidden', 'true');
+      }, 300);
+    }
+
+    function confirmarEscolha() {
+      mostrarFeedback(`✅ Adoção de ${petEscolhidoNome} confirmada!`);
+      setTimeout(() => {
+        window.location.href = "encontro.html";
+      }, 1500);
+    }
+
+    // Filtragem de pets
+    function filtrarPets(filtro) {
+      filtroAtual = filtro;
+      const cards = document.querySelectorAll('.pet-card');
+      let algumVisivel = false;
+      
+      cards.forEach(card => {
+        if (filtro === 'todos') {
+          card.style.display = 'block';
+          algumVisivel = true;
+        } else {
+          const filters = filtro.split(' ');
+          const shouldShow = filters.every(f => card.classList.contains(f));
+          
+          card.style.display = shouldShow ? 'block' : 'none';
+          if (shouldShow) algumVisivel = true;
+          
+          // Animação
+          if (shouldShow) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.transition = 'opacity 0.3s, transform 0.3s';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 50);
+          }
+        }
+      });
+      
+      // Mostra mensagem se nenhum pet for encontrado
+      document.querySelector('.sem-resultados').style.display = algumVisivel ? 'none' : 'block';
+
+      // Atualiza estado ativo dos botões
+      document.querySelectorAll('#barra-filtros button').forEach(btn => {
+        btn.classList.remove('filtro-ativo');
+      });
+      document.getElementById(`filtro-${filtro}`)?.classList.add('filtro-ativo');
+    }
+
+    // NOVA FUNÇÃO: Filtrar por favoritos
+    function filtrarFavoritos() {
+      const cards = document.querySelectorAll('.pet-card');
+      let algumVisivel = false;
+      
+      cards.forEach(card => {
+        const nomePet = card.querySelector('.pet-nome em').innerText;
+        const shouldShow = favoritos.includes(nomePet);
+        
+        card.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow) algumVisivel = true;
+        
+        // Animação
+        if (shouldShow) {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.3s, transform 0.3s';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 50);
+        }
+      });
+      
+      // Mostra mensagem se não houver favoritos
+      if (favoritos.length === 0) {
+        document.querySelector('.sem-resultados').innerHTML = `
+          <h2>Você ainda não tem favoritos</h2>
+          <p>Clique no ❤️ nos cards para adicionar pets aos seus favoritos</p>
+          <button onclick="filtrarPets('todos')" class="btn-adotar" style="max-width: 200px; margin: 10px auto;">Ver todos os pets</button>
+        `;
+        document.querySelector('.sem-resultados').style.display = 'block';
+      } else {
+        document.querySelector('.sem-resultados').style.display = algumVisivel ? 'none' : 'block';
+      }
+
+      // Atualiza estado ativo dos botões
+      document.querySelectorAll('#barra-filtros button').forEach(btn => {
+        btn.classList.remove('filtro-ativo');
+      });
+      document.getElementById('filtro-favoritos').classList.add('filtro-ativo');
+      
+      filtroAtual = 'favoritos';
+    }
+
+    // BUSCA POR RAÇA melhorada
+    function buscarPorRaca(termo) {
+      termo = normalizarTexto(termo.trim());
+      let algumVisivel = false;
+      
+      if (termo === '') {
+        // Se o campo estiver vazio, mostra todos os pets do filtro atual
+        if (filtroAtual === 'favoritos') {
+          filtrarFavoritos();
+        } else {
+          filtrarPets(filtroAtual);
+        }
+        return;
+      }
+      
+      document.querySelectorAll('.pet-card').forEach(card => {
+        const raca = normalizarTexto(card.querySelector('h2').textContent.replace('Raça: ', ''));
+        let exibir = raca.includes(termo);
+        
+        // Se estiver no modo favoritos, só mostra os que são favoritos
+        if (filtroAtual === 'favoritos') {
+          const nomePet = card.querySelector('.pet-nome em').innerText;
+          exibir = exibir && favoritos.includes(nomePet);
+        } else if (filtroAtual !== 'todos') {
+          // Se houver outro filtro ativo, aplica também
+          exibir = exibir && card.classList.contains(filtroAtual);
+        }
+        
+        card.style.display = exibir ? 'block' : 'none';
+        if (exibir) algumVisivel = true;
+        
+        // Animação
+        if (exibir) {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.3s, transform 0.3s';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 50);
+        }
+      });
+      
+      document.querySelector('.sem-resultados').style.display = algumVisivel ? 'none' : 'block';
+    }
+
+    // Fechar modal com ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        fecharModal();
+      }
+    });
+
+    // Fechar modal ao clicar fora do conteúdo
+    document.getElementById('modal-bg').addEventListener('click', function(e) {
+      if (e.target === this) {
+        fecharModal();
+      }
+    });
+
+    // Adiciona animação CSS via JavaScript
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Inicializa mostrando todos os pets
+    filtrarPets('todos');
+  </script>
+</body>
+</html>

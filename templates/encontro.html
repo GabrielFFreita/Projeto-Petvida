@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Vida - Espalhe amor, adote uma vida! </title>
+  <link rel="icon" href="imagens/icone-removebg-preview.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="icone-removebg-preview.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF5C8D;
+      --primary-dark: #E83A72;
+      --secondary: #6C4AB6;
+      --light: #F9F9F9;
+      --dark: #2D2D2D;
+      --gray: #E0E0E0;
+      --success: #4CAF50;
+      --warning: #FF9800;
+      --radius: 12px;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--dark);
+      background-color: #FFF9FB;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .input-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--gray);
+      border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .input-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 92, 141, 0.2);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .radio-option {
+      flex: 1;
+    }
+
+    .radio-input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .radio-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      border: 2px solid var(--gray);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      height: 100%;
+    }
+
+    .radio-label:hover {
+      border-color: var(--primary);
+    }
+
+    .radio-input:checked + .radio-label {
+      border-color: var(--primary);
+      background-color: rgba(255, 92, 141, 0.05);
+    }
+
+    .radio-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--secondary);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .hidden-section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .payment-method {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px dashed var(--gray);
+    }
+
+    .qr-code-container {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .qr-code-container p {
+      margin-bottom: 1rem;
+    }
+
+    .qr-code {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 1.5rem;
+      background: white;
+      padding: 10px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .pix-key {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin: 1.5rem 0;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .alert-warning {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+      border: 1px solid var(--warning);
+    }
+
+    .notice {
+      background-color: rgba(108, 74, 182, 0.05);
+      border-left: 4px solid var(--secondary);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    /* Confirmação de envio */
+    .confirmation-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .confirmation-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .confirmation-box {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .confirmation-overlay.active .confirmation-box {
+      transform: translateY(0);
+    }
+
+    .confirmation-icon {
+      font-size: 4rem;
+      color: var(--success);
+      margin-bottom: 1.5rem;
+    }
+
+    .confirmation-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--secondary);
+    }
+
+    .confirmation-message {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .confirmation-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .confirmation-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .file-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .file-upload-label {
+      display: inline-block;
+      padding: 0.8rem 1rem;
+      background-color: #f5f5f5;
+      border: 1px dashed var(--gray);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .file-upload-label:hover {
+      background-color: #eee;
+      border-color: var(--primary);
+    }
+
+    .file-upload-input {
+      display: none;
+    }
+
+    .file-name {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .radio-group {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .confirmation-box {
+        padding: 1.5rem;
+      }
+
+      .confirmation-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Encontre Seu Companheiro Peludo</h1>
+      <p>Escolha a melhor forma de levar seu novo amigo para casa</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2 class="card-title">Como você prefere receber seu pet?</h2>
+      
+      <form id="petDeliveryForm">
+        <div class="form-group">
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="delivery" name="deliveryMethod" value="delivery" class="radio-input">
+              <label for="delivery" class="radio-label">
+                <span class="radio-icon">🚚</span>
+                <span>Entrega em Casa</span>
+                <small>Taxa: R$2,50 por km</small>
+              </label>
+            </div>
+            
+            <div class="radio-option">
+              <input type="radio" id="shelter" name="deliveryMethod" value="shelter" class="radio-input">
+              <label for="shelter" class="radio-label">
+                <span class="radio-icon">🏠</span>
+                <span>Buscar no Abrigo</span>
+                <small>Sem custo adicional</small>
+              </label>
+            </div>
+            
+            <div class="radio-option">
+              <input type="radio" id="meetup" name="deliveryMethod" value="meetup" class="radio-input">
+              <label for="meetup" class="radio-label">
+                <span class="radio-icon">📅</span>
+                <span>Agendar Encontro</span>
+                <small>Em local combinado</small>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Section -->
+        <div id="deliverySection" class="hidden-section">
+          <div class="form-group">
+            <label for="fullName">Nome Completo</label>
+            <input type="text" id="fullName" class="input-control" placeholder="Seu nome completo">
+          </div>
+          
+          <div class="form-group">
+            <label for="deliveryPhone">Telefone</label>
+            <input type="tel" id="deliveryPhone" class="input-control" placeholder="(00) 00000-0000">
+          </div>
+          
+          <div class="form-group">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <label for="deliveryDate">Data</label>
+                <input type="date" id="deliveryDate" class="input-control">
+              </div>
+              <div>
+                <label for="deliveryTime">Horário</label>
+                <input type="time" id="deliveryTime" class="input-control">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="address">Endereço Completo</label>
+            <input type="text" id="address" class="input-control" placeholder="Rua, número, bairro, cidade">
+          </div>
+          
+          <div class="form-group">
+            <label for="distance">Distância até o abrigo (km)</label>
+            <input type="number" id="distance" class="input-control" min="0" step="0.1" placeholder="Ex: 5.3">
+            <div id="deliveryFee" class="notice hidden-section">
+              Taxa de entrega: <strong>R$ <span id="feeAmount">0.00</span></strong>
+            </div>
+          </div>
+          
+          <div class="payment-method">
+            <div class="form-group">
+              <label for="paymentMethod">Forma de Pagamento</label>
+              <select id="paymentMethod" class="input-control">
+                <option value="">Selecione...</option>
+                <option value="credit">Cartão de Crédito</option>
+                <option value="debit">Cartão de Débito</option>
+                <option value="pix">PIX</option>
+                <option value="cash">Dinheiro</option>
+              </select>
+            </div>
+            
+            <div id="creditCardSection" class="hidden-section">
+              <div class="form-group">
+                <label for="cardNumber">Número do Cartão</label>
+                <input type="text" id="cardNumber" class="input-control" placeholder="0000 0000 0000 0000">
+              </div>
+              
+              <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                <div>
+                  <label for="cardExpiry">Validade</label>
+                  <input type="text" id="cardExpiry" class="input-control" placeholder="MM/AA">
+                </div>
+                <div>
+                  <label for="cardCvv">CVV</label>
+                  <input type="text" id="cardCvv" class="input-control" placeholder="123">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="cardName">Nome no Cartão</label>
+                <input type="text" id="cardName" class="input-control" placeholder="Como no cartão">
+              </div>
+              
+              <div class="form-group">
+                <label>Comprovante de Pagamento</label>
+                <div class="file-upload">
+                  <label for="cardReceipt" class="file-upload-label">
+                    Clique para enviar comprovante
+                    <input type="file" id="cardReceipt" class="file-upload-input" accept="image/*,.pdf">
+                  </label>
+                  <div id="cardReceiptName" class="file-name">Nenhum arquivo selecionado</div>
+                </div>
+              </div>
+            </div>
+            
+            <div id="pixSection" class="hidden-section">
+              <div class="qr-code-container">
+                <p>Escaneie o QR Code abaixo para pagar via PIX</p>
+                <div class="qr-code">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PIX-123456789" alt="QR Code PIX">
+                </div>
+                <div class="pix-key">
+                  <p>Ou use a chave: <strong>pix@petvida.com.br</strong></p>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label>Comprovante de Pagamento PIX</label>
+                <div class="file-upload">
+                  <label for="pixReceipt" class="file-upload-label">
+                    Clique para enviar comprovante
+                    <input type="file" id="pixReceipt" class="file-upload-input" accept="image/*,.pdf">
+                  </label>
+                  <div id="pixReceiptName" class="file-name">Nenhum arquivo selecionado</div>
+                </div>
+              </div>
+            </div>
+            
+            <div id="cashSection" class="hidden-section">
+              <div class="notice">
+                💵 O pagamento em dinheiro será realizado diretamente com o entregador no momento da entrega.
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Shelter Section -->
+        <div id="shelterSection" class="hidden-section">
+          <div class="form-group">
+            <label for="shelterName">Nome Completo</label>
+            <input type="text" id="shelterName" class="input-control" placeholder="Seu nome completo">
+          </div>
+          
+          <div class="form-group">
+            <label for="shelterPhone">Telefone</label>
+            <input type="tel" id="shelterPhone" class="input-control" placeholder="(00) 00000-0000">
+          </div>
+          
+          <div class="form-group">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <label for="shelterDate">Data da Visita</label>
+                <input type="date" id="shelterDate" class="input-control">
+              </div>
+              <div>
+                <label for="shelterTime">Horário</label>
+                <input type="time" id="shelterTime" class="input-control">
+              </div>
+            </div>
+          </div>
+          
+          <div class="notice">
+            🏡 Nosso abrigo está localizado na Rua dos Animais, 123 - Centro. Horário de funcionamento: Terça a Domingo, das 8:30h às 19h.
+          </div>
+        </div>
+        
+        <!-- Meetup Section -->
+        <div id="meetupSection" class="hidden-section">
+          <div class="form-group">
+            <label for="meetupName">Nome Completo</label>
+            <input type="text" id="meetupName" class="input-control" placeholder="Seu nome completo">
+          </div>
+          
+          <div class="form-group">
+            <label for="meetupPhone">Telefone</label>
+            <input type="tel" id="meetupPhone" class="input-control" placeholder="(00) 00000-0000">
+          </div>
+          
+          <div class="form-group">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <label for="meetupDate">Data do Encontro</label>
+                <input type="date" id="meetupDate" class="input-control">
+              </div>
+              <div>
+                <label for="meetupTime">Horário</label>
+                <input type="time" id="meetupTime" class="input-control">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="meetupLocation">Local Preferido</label>
+            <input type="text" id="meetupLocation" class="input-control" placeholder="Parque, praça ou endereço">
+          </div>
+          
+          <div class="notice">
+            📍 Sugerimos locais públicos e movimentados para maior segurança de todos.
+          </div>
+        </div>
+        
+        <div id="formAlert" class="alert hidden-section"></div>
+        
+        <button type="submit" class="btn">Confirmar Agendamento</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Overlay de Confirmação -->
+  <div id="confirmationOverlay" class="confirmation-overlay">
+    <div class="confirmation-box">
+      <div class="confirmation-icon">✓</div>
+      <h3 class="confirmation-title">Agendamento Confirmado!</h3>
+      <p class="confirmation-message">Seu agendamento foi recebido com sucesso. Em breve entraremos em contato para confirmar os detalhes.</p>
+      <button class="confirmation-btn" id="confirmationBtn">Voltar à Página Inicial</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM Elements
+      const form = document.getElementById('petDeliveryForm');
+      const deliveryMethodRadios = document.querySelectorAll('input[name="deliveryMethod"]');
+      const deliverySection = document.getElementById('deliverySection');
+      const shelterSection = document.getElementById('shelterSection');
+      const meetupSection = document.getElementById('meetupSection');
+      const distanceInput = document.getElementById('distance');
+      const deliveryFee = document.getElementById('deliveryFee');
+      const feeAmount = document.getElementById('feeAmount');
+      const paymentMethod = document.getElementById('paymentMethod');
+      const creditCardSection = document.getElementById('creditCardSection');
+      const pixSection = document.getElementById('pixSection');
+      const cashSection = document.getElementById('cashSection');
+      const formAlert = document.getElementById('formAlert');
+      const confirmationOverlay = document.getElementById('confirmationOverlay');
+      const confirmationBtn = document.getElementById('confirmationBtn');
+      
+      // File upload elements
+      const cardReceiptInput = document.getElementById('cardReceipt');
+      const cardReceiptName = document.getElementById('cardReceiptName');
+      const pixReceiptInput = document.getElementById('pixReceipt');
+      const pixReceiptName = document.getElementById('pixReceiptName');
+      
+      // Constants
+      const DELIVERY_RATE = 2.5;
+      
+      // Event Listeners
+      deliveryMethodRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          // Hide all sections first
+          [deliverySection, shelterSection, meetupSection].forEach(section => {
+            section.classList.add('hidden-section');
+          });
+          
+          // Show selected section
+          switch(this.value) {
+            case 'delivery':
+              deliverySection.classList.remove('hidden-section');
+              break;
+            case 'shelter':
+              shelterSection.classList.remove('hidden-section');
+              break;
+            case 'meetup':
+              meetupSection.classList.remove('hidden-section');
+              break;
+          }
+        });
+      });
+      
+      distanceInput.addEventListener('input', calculateDeliveryFee);
+      paymentMethod.addEventListener('change', updatePaymentSection);
+      form.addEventListener('submit', handleFormSubmit);
+      confirmationBtn.addEventListener('click', () => {
+        window.location.href = 'redeAmigo.html';
+      });
+      
+      // File upload listeners
+      cardReceiptInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+          cardReceiptName.textContent = this.files[0].name;
+        } else {
+          cardReceiptName.textContent = 'Nenhum arquivo selecionado';
+        }
+      });
+      
+      pixReceiptInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+          pixReceiptName.textContent = this.files[0].name;
+        } else {
+          pixReceiptName.textContent = 'Nenhum arquivo selecionado';
+        }
+      });
+      
+      // Functions
+      function calculateDeliveryFee() {
+        const distance = parseFloat(distanceInput.value);
+        if (!isNaN(distance) && distance > 0) {
+          const fee = (distance * DELIVERY_RATE).toFixed(2);
+          feeAmount.textContent = fee;
+          deliveryFee.classList.remove('hidden-section');
+        } else {
+          deliveryFee.classList.add('hidden-section');
+        }
+      }
+      
+      function updatePaymentSection() {
+        // Hide all payment sections first
+        [creditCardSection, pixSection, cashSection].forEach(section => {
+          section.classList.add('hidden-section');
+        });
+        
+        // Show selected payment method
+        switch(paymentMethod.value) {
+          case 'credit':
+          case 'debit':
+            creditCardSection.classList.remove('hidden-section');
+            break;
+          case 'pix':
+            pixSection.classList.remove('hidden-section');
+            break;
+          case 'cash':
+            cashSection.classList.remove('hidden-section');
+            break;
+        }
+      }
+      
+      function validateForm() {
+        const selectedMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+        
+        if (!selectedMethod) {
+          showAlert('Por favor, selecione um método de recebimento', 'warning');
+          return false;
+        }
+        
+        let isValid = true;
+        let errorMessage = '';
+        
+        switch(selectedMethod.value) {
+          case 'delivery':
+            if (!document.getElementById('fullName').value.trim()) {
+              errorMessage = 'Por favor, informe seu nome completo';
+              isValid = false;
+            } else if (!document.getElementById('deliveryPhone').value.trim()) {
+              errorMessage = 'Por favor, informe seu telefone';
+              isValid = false;
+            } else if (!document.getElementById('deliveryDate').value) {
+              errorMessage = 'Por favor, selecione uma data para entrega';
+              isValid = false;
+            } else if (!document.getElementById('deliveryTime').value) {
+              errorMessage = 'Por favor, selecione um horário para entrega';
+              isValid = false;
+            } else if (!document.getElementById('address').value.trim()) {
+              errorMessage = 'Por favor, informe seu endereço completo';
+              isValid = false;
+            } else if (!document.getElementById('distance').value || parseFloat(document.getElementById('distance').value) <= 0) {
+              errorMessage = 'Por favor, informe a distância válida até o abrigo';
+              isValid = false;
+            } else if (!paymentMethod.value) {
+              errorMessage = 'Por favor, selecione uma forma de pagamento';
+              isValid = false;
+            } else if ((paymentMethod.value === 'credit' || paymentMethod.value === 'debit') && !cardReceiptInput.files[0]) {
+              errorMessage = 'Por favor, envie o comprovante de pagamento do cartão';
+              isValid = false;
+            } else if (paymentMethod.value === 'pix' && !pixReceiptInput.files[0]) {
+              errorMessage = 'Por favor, envie o comprovante de pagamento PIX';
+              isValid = false;
+            }
+            break;
+            
+          case 'shelter':
+            if (!document.getElementById('shelterName').value.trim()) {
+              errorMessage = 'Por favor, informe seu nome completo';
+              isValid = false;
+            } else if (!document.getElementById('shelterPhone').value.trim()) {
+              errorMessage = 'Por favor, informe seu telefone';
+              isValid = false;
+            } else if (!document.getElementById('shelterDate').value) {
+              errorMessage = 'Por favor, selecione uma data para visita';
+              isValid = false;
+            } else if (!document.getElementById('shelterTime').value) {
+              errorMessage = 'Por favor, selecione um horário para visita';
+              isValid = false;
+            }
+            break;
+            
+          case 'meetup':
+            if (!document.getElementById('meetupName').value.trim()) {
+              errorMessage = 'Por favor, informe seu nome completo';
+              isValid = false;
+            } else if (!document.getElementById('meetupPhone').value.trim()) {
+              errorMessage = 'Por favor, informe seu telefone';
+              isValid = false;
+            } else if (!document.getElementById('meetupDate').value) {
+              errorMessage = 'Por favor, selecione uma data para o encontro';
+              isValid = false;
+            } else if (!document.getElementById('meetupTime').value) {
+              errorMessage = 'Por favor, selecione um horário para o encontro';
+              isValid = false;
+            } else if (!document.getElementById('meetupLocation').value.trim()) {
+              errorMessage = 'Por favor, informe o local preferido para o encontro';
+              isValid = false;
+            }
+            break;
+        }
+        
+        if (!isValid) {
+          showAlert(errorMessage, 'warning');
+        }
+        
+        return isValid;
+      }
+      
+      function showAlert(message, type) {
+        formAlert.textContent = message;
+        formAlert.className = 'alert';
+        formAlert.classList.add(type === 'warning' ? 'alert-warning' : 'alert-success');
+        formAlert.classList.remove('hidden-section');
+        
+        // Scroll to alert
+        formAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      function handleFormSubmit(e) {
+        e.preventDefault();
+        
+        if (validateForm()) {
+          // Form is valid - show confirmation overlay
+          confirmationOverlay.classList.add('active');
+          
+          // Hide form
+          form.style.opacity = '0.5';
+          form.querySelectorAll('input, select, button').forEach(el => {
+            el.disabled = true;
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

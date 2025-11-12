@@ -1,0 +1,436 @@
+pode pegar esse código, e adicionar um qr code de pix: 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PetVida - Doação de Produtos</title>
+<style>
+  /* Seu CSS anterior aqui */
+  :root {
+    --roxo-escuro: #4b3e85;
+    --roxo-medio: #764ba2;
+    --rosa: #f273a3;
+    --rosa-escuro: #f24c6a;
+    --rosa-escuro-hover: #d93d57;
+    --branco: #ffffff;
+    --fundo: #f1f1f9;
+    --cinza: #cccccc;
+    --cinza-texto: #555555;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--fundo);
+    color: var(--cinza-texto);
+    line-height: 1.6;
+  }
+  
+  header {
+    background: linear-gradient(90deg, var(--roxo-medio), var(--rosa));
+    color: var(--branco);
+    padding: 12px 5%;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .topo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    flex-shrink: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  nav {
+    display: flex;
+    gap: 15px;
+    margin: 0 20px;
+  }
+  
+  nav button {
+    background: transparent;
+    border: none;
+    color: var(--branco);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  nav button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .btn-doe {
+    background: var(--rosa-escuro);
+    border: none;
+    color: var(--branco);
+    padding: 10px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-doe:hover {
+    background-color: var(--rosa-escuro-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  main {
+    max-width: 600px;
+    margin: 40px auto 60px;
+    padding: 0;
+    background: var(--branco);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  main h1 {
+    background: linear-gradient(90deg, var(--roxo-medio), var(--rosa));
+    color: var(--branco);
+    padding: 30px 20px;
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+  }
+  
+  .form-container {
+    padding: 30px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  label {
+    font-weight: 600;
+    color: var(--roxo-medio);
+    font-size: 1.05rem;
+  }
+  
+  .required::after {
+    content: " *";
+    color: var(--rosa-escuro);
+  }
+  
+  select, input[type="text"], textarea {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--cinza);
+    transition: all 0.3s ease;
+    resize: vertical;
+    width: 100%;
+  }
+  
+  select:focus, input[type="text"]:focus, textarea:focus {
+    border-color: var(--roxo-medio);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(118, 75, 162, 0.2);
+  }
+  
+  textarea {
+    min-height: 100px;
+  }
+  
+  button[type="submit"] {
+    background: var(--rosa-escuro);
+    color: var(--branco);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  button[type="submit"]:hover {
+    background-color: var(--rosa-escuro-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .form-note {
+    font-size: 0.9rem;
+    color: var(--cinza-texto);
+    margin-top: -15px;
+    font-style: italic;
+  }
+  
+  #pix-qrcode {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  #pix-qrcode img {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+
+  footer {
+    background: var(--roxo-escuro);
+    color: var(--branco);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  
+  footer a {
+    color: var(--branco);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  footer a:hover {
+    color: var(--rosa);
+    text-decoration: underline;
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    header {
+      padding: 12px 20px;
+    }
+    
+    .topo-container {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    nav {
+      margin: 10px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    main {
+      margin: 30px 20px 50px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    nav button {
+      padding: 6px 8px;
+      font-size: 14px;
+    }
+    
+    .btn-doe {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    main h1 {
+      font-size: 24px;
+      padding: 20px 15px;
+    }
+    
+    .form-container {
+      padding: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topo-container">
+    <div class="logo">PetVida</div>
+    <nav>
+      <button onclick="location.href='index.html'">Quem Somos</button>
+      <button onclick="location.href='adotar.html'">Quero Adotar</button>
+      <button onclick="location.href='parcerias.html'">Parcerias</button>
+      <button onclick="location.href='blog.html'">Blog</button>
+    </nav>
+    <button class="btn-doe" onclick="location.href='doacao.html'">Doe, Ajude</button>
+  </div>
+</header>
+
+<main>
+  <h1>Doação de Produtos</h1>
+  <div class="form-container">
+    <form id="doacaoForm" action="#" method="POST">
+      <div class="form-group">
+        <label for="categoria" class="required">Categoria do Produto:</label>
+        <select id="categoria" name="categoria" required>
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option value="brinquedos">Brinquedos</option>
+          <option value="roupas">Roupas</option>
+          <option value="remedios">Remédios</option>
+          <option value="produtos-limpeza">Produtos de Limpeza</option>
+          <option value="casinha">Casinha</option>
+          <option value="racao">Ração</option>
+          <option value="outros">Outros</option>
+          <option value="dinheiro">Dinheiro (PIX)</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="descricao-group">
+        <label for="descricao">Descrição do Produto:</label>
+        <textarea id="descricao" name="descricao" placeholder="Ex: brinquedo novo, tamanho médio, marca, quantidade, etc."></textarea>
+        <p class="form-note">Nos ajude detalhando o produto que você deseja doar.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="nome" class="required">Seu Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required />
+      </div>
+
+      <div class="form-group">
+        <label for="contato" class="required">Contato (email com @gmail.com):</label>
+        <input type="text" id="contato" name="contato" placeholder="Digite seu telefone ou email" required />
+        <p class="form-note">Informe como podemos entrar em contato para combinar a entrega ou confirmação.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Forma de entrega:</label>
+        <select id="formaEntrega" name="formaEntrega" required>
+          <option value="" disabled selected>Selecione uma forma de entrega</option>
+          <option value="correio">Correio</option>
+          <option value="pessoalmente">Entrega Pessoalmente</option>
+          <option value="pix">PIX (Dinheiro)</option>
+        </select>
+      </div>
+
+      <div id="pix-qrcode" style="display:none;">
+        <p>Faça sua doação via PIX escaneando o QR Code abaixo:</p>
+        <img src="https://i.imgur.com/QrVb72U.png" alt="QR Code PIX PetVida" />
+        <p><small>Chave PIX: petvida@gmail.com</small></p>
+      </div>
+
+      <button type="submit">Enviar Doação</button>
+    </form>
+  </div>
+</main>
+
+<footer>
+  © 2025 PetVida. Todos os direitos reservados.<br />
+  <a href="mailto:contato@petvida.org">contato@petvida.org</a> | <a href="tel:1112345678">(11) 1234-5678</a><br />
+  Avenida dos Animais, 123 - São Paulo/SP
+</footer>
+
+<script>
+  const form = document.getElementById('doacaoForm');
+  const categoriaSelect = document.getElementById('categoria');
+  const descricaoGroup = document.getElementById('descricao-group');
+  const formaEntregaSelect = document.getElementById('formaEntrega');
+  const pixQRCode = document.getElementById('pix-qrcode');
+  const contatoInput = document.getElementById('contato');
+
+  // Mostrar/ocultar descrição se for dinheiro (PIX)
+  categoriaSelect.addEventListener('change', () => {
+    if (categoriaSelect.value === 'dinheiro') {
+      descricaoGroup.style.display = 'none';
+    } else {
+      descricaoGroup.style.display = 'flex';
+    }
+  });
+
+  // Mostrar/ocultar QR Code PIX dependendo da forma de entrega
+  formaEntregaSelect.addEventListener('change', () => {
+    if (formaEntregaSelect.value === 'pix') {
+      pixQRCode.style.display = 'block';
+    } else {
+      pixQRCode.style.display = 'none';
+    }
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nome = form.nome.value.trim();
+    const contato = form.contato.value.trim();
+    const categoria = categoriaSelect.value;
+    const formaEntrega = formaEntregaSelect.value;
+
+    // Validação do nome
+    if (!nome) {
+      alert('Por favor, preencha seu nome.');
+      form.nome.focus();
+      return;
+    }
+
+    // Validação do contato para aceitar telefone ou e-mail @gmail.com
+    const emailRegex = /^[^\s@]+@gmail\.com$/i;
+    const telefoneRegex = /^[\d\s()+-]{8,}$/; // simples para telefone, mínimo 8 dígitos
+    
+    const contatoValido = emailRegex.test(contato) || telefoneRegex.test(contato);
+    if (!contatoValido) {
+      alert('Por favor, informe um telefone válido ou um e-mail com domínio @gmail.com.');
+      form.contato.focus();
+      return;
+    }
+
+    // Validação forma de entrega
+    if (!formaEntrega) {
+      alert('Por favor, selecione uma forma de entrega.');
+      formaEntregaSelect.focus();
+      return;
+    }
+
+    // Se categoria é dinheiro, ajustar mensagem
+    let msg = 'Obrigado por sua doação! Entraremos em contato em breve para combinar a entrega.';
+    if(categoria === 'dinheiro' || formaEntrega === 'pix'){
+      msg = 'Obrigado por sua doação em dinheiro via PIX! Agradecemos muito seu apoio.';
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+    button.textContent = 'Enviando...';
+    button.disabled = true;
+
+    setTimeout(() => {
+      alert(msg);
+      form.reset();
+      descricaoGroup.style.display = 'flex';
+      pixQRCode.style.display = 'none';
+      button.textContent = 'Enviar Doação';
+      button.disabled = false;
+    }, 1500);
+  });
+</script>
+
+</body>
+</html>

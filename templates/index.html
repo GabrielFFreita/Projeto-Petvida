@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pet Vida - Espalhe amor, adote uma vida!</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Pacifico&display=swap" rel="stylesheet"/>
-  <link rel="icon" href="imagens/icone-removebg-preview.png" type="image/png">
+  <link rel="icon" href="static/icone-removebg-preview.png" type="image/png">
   <style>
     :root {
       --cor-fundo: #ffbdd3;
@@ -55,7 +55,7 @@
     }
 
     .left-panel {
-      background-image: url('imagens/fundo.png');
+      background-image: url('static/fundo.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -370,8 +370,8 @@
 
 <div class="container">
   <div class="left-panel">
-    <img src="imagens/Design sem nome (1)-Photoroom.png" alt="Imagem de animais para adoção" class="central-image">
-    <img src="imagens/logo.png" alt="Logo Pet Vida" class="logo-fixa">
+    <img src="static/imagem_tela_principal.png" alt="Imagem de animais para adoção" class="central-image">
+    <img src="static/logo.png" alt="Logo Pet Vida" class="logo-fixa">
   </div>
 
   <div class="right-panel">
@@ -429,7 +429,6 @@
 </div>
 
 <script>
-  // Elementos DOM
   const stepContainers = {
     1: document.getElementById('step1'),
     2: document.getElementById('step2'),
@@ -444,24 +443,19 @@
   
   let currentStep = 1;
 
-  // Função para mostrar um passo específico com animação
   function showStep(step) {
-    // Atualizar botões de navegação
     stepBtns.forEach((btn, idx) => {
       btn.classList.toggle('active', idx + 1 === step);
       btn.setAttribute('aria-current', idx + 1 === step ? 'step' : 'false');
     });
 
-    // Esconder todos os containers primeiro
     Object.values(stepContainers).forEach(container => {
       container.classList.add('hidden');
     });
 
-    // Mostrar o container do passo atual com animação
     setTimeout(() => {
       stepContainers[step].classList.remove('hidden');
       
-      // Focar no primeiro elemento interativo do passo
       setTimeout(() => {
         const focusElement = stepContainers[step].querySelector('button, input, [tabindex]');
         if (focusElement) focusElement.focus();
@@ -471,12 +465,10 @@
     currentStep = step;
   }
 
-  // Função para avançar para o próximo passo
   function nextStep() {
     showStep(2);
   }
 
-  // Função para continuar do termo para o cadastro
   function continuar() {
     const aceito = document.getElementById("aceitoTermo");
     if (aceito && aceito.checked) {
@@ -487,17 +479,14 @@
     }
   }
 
-  // Validação do formulário
   document.getElementById('cadastroForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Reset mensagens de erro
     document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
     document.querySelectorAll('input').forEach(input => input.classList.remove('error'));
     
     let isValid = true;
     
-    // Validar nome
     const nome = document.getElementById('nomeCadastro');
     if (!nome.value.trim()) {
       document.getElementById('nomeError').textContent = 'Por favor, informe seu nome completo.';
@@ -505,7 +494,6 @@
       isValid = false;
     }
     
-    // Validar email
     const email = document.getElementById('emailCadastro');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.value.trim() || !emailRegex.test(email.value)) {
@@ -514,7 +502,6 @@
       isValid = false;
     }
     
-    // Validar senha
     const senha = document.getElementById('senhaCadastro');
     if (!senha.value || senha.value.length < 6) {
       document.getElementById('senhaError').textContent = 'A senha deve ter pelo menos 6 caracteres.';
@@ -523,12 +510,10 @@
     }
     
     if (isValid) {
-      // Mostrar estado de carregamento
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.innerHTML = 'Processando <span class="loading"></span>';
       submitBtn.disabled = true;
       
-      // Simular envio para o servidor
       setTimeout(() => {
         stepContainers[3].innerHTML = `
           <div class="step-title">Cadastro realizado com sucesso! 🎉</div>
@@ -538,7 +523,6 @@
           <p class="success-message">Redirecionando para a busca de pets...</p>
         `;
         
-        // Redirecionar após 2 segundos (sem contagem regressiva)
         setTimeout(() => {
           document.querySelector('.container').classList.add('slide-out');
           setTimeout(() => {
@@ -549,7 +533,7 @@
     }
   });
 
-  // Inicializar mostrando o primeiro passo
+
   showStep(1);
 </script>
 
